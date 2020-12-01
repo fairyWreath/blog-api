@@ -38,6 +38,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 
+    'rest_framework',
+
     # local apps
     'posts.apps.PostsConfig',
 ]
@@ -121,3 +123,15 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.1/howto/static-files/
 
 STATIC_URL = '/static/'
+
+
+# permission
+# drf has its own permissions layer
+# permissions can go from project level to any view level
+# examples are AllowAny, IsAuthenticated, IsAdminUser, IsAuthenticatedOrReadOnly
+
+REST_FRAMEWORK = {
+    'DEFAULT_PERMISSION_CLASSES': [
+        'rest_framework.permissions.IsAuthenticated',
+    ]
+}
