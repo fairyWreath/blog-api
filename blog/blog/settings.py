@@ -37,8 +37,18 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django.contrib.sites',     # for alluth/user reg, to host multiple websites from the same project
 
     'rest_framework',
+    'rest_framework.authtoken',     # for token authentication
+    'dj_rest_auth',                 # for authentication endpoints
+    'dj_rest_auth.registration',                # for user registration
+
+    # allauth, for user registration
+    'allauth',
+    'allauth.account',
+    'allauth.socialaccount',
+
 
     # local apps
     'posts.apps.PostsConfig',
@@ -124,14 +134,23 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
-
-# permission
-# drf has its own permissions layer
-# permissions can go from project level to any view level
-# examples are AllowAny, IsAuthenticated, IsAdminUser, IsAuthenticatedOrReadOnly
-
 REST_FRAMEWORK = {
+    # permissions
+    # drf has its own permissions layer
+    # permissions can go from project level to any view level
+    # examples are AllowAny, IsAuthenticated, IsAdminUser, IsAuthenticatedOrReadOnly
     'DEFAULT_PERMISSION_CLASSES': [
         'rest_framework.permissions.IsAuthenticated',
+    ],
+
+    # three main authentication methods: basic, sessiona and token
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework.authentication.SessionAuthentication',      # need this for browsable API
+        'rest_framework.authentication.TokenAuthentication',
     ]
 }
+
+# for user registration
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'    # default email sent when new user is registered
+SITE_ID = 1                                                   
+
